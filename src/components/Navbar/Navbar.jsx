@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { CgProfile } from "react-icons/cg";
 import { FaBarsStaggered } from "react-icons/fa6";
+import { IoClose } from "react-icons/io5";
 import { Link } from 'react-router-dom';
 import DropdownMenu from './DropdownMenu';
 import Search from './Search';
@@ -15,7 +16,8 @@ export default function Navbar() {
     ];
 
     const [login, setLogIn] = useState(true);
-    const [showDropdown, setShowDropdown] = useState(false);
+    const [bar, setBar] = useState(false);
+
 
 
     return (
@@ -49,9 +51,23 @@ export default function Navbar() {
                             </button>
                         )}
 
-                    <button className="md:hidden text-white hover:text-gray-300">
-                        <FaBarsStaggered className="h-6 w-6" />
+                    <button onClick={() => setBar(!bar)} className="md:hidden text-white hover:text-gray-300">
+                        {bar ? <IoClose className="text-4xl" />
+                            : < FaBarsStaggered className="text-3xl" />}
                     </button>
+                </div>
+
+                {/* Mobile menu */}
+                <div className={`absolute top-14 right-0 w-full bg-gray-800 md:hidden ${bar ? "translate-x-0" : "translate-x-full"} transition-transform duration-300 ease-in-out`}>
+                    <ul className="flex flex-col text-center  space-y-4 p-4">
+                        {menuData.map((item, key) => (
+                            <li key={key}>
+                                <Link to={item.href} className="rounded-md text-xl font-semibold px-3 py-2 text-gray-300 transition-colors hover:bg-gray-700 hover:text-white">
+                                    {item.name}
+                                </Link>
+                            </li>
+                        ))}
+                    </ul>
                 </div>
             </nav>
         </header>
