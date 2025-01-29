@@ -3,14 +3,15 @@ import { Navbar, SignUp, LogIn, Home, Bollywood, Hollywood, South, Anime } from 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 export default function App() {
+
   return (
     <div>
       <BrowserRouter>
         <Navbar />
         <Routes>
-          <Route path="/" element={<LogIn />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/LogIn" element={<LogIn />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/home" element={<Home />} />
           <Route path="/bollywood" element={<Bollywood />} />
           <Route path="/hollywood" element={<Hollywood />} />
           <Route path="/south" element={<South />} />

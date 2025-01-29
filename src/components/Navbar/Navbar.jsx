@@ -15,7 +15,7 @@ export default function Navbar() {
         { name: "Anime", href: "/anime" },
     ];
 
-    const [login, setLogIn] = useState(true);
+    const [login, setLogIn] = useState(false);
     const [bar, setBar] = useState(false);
 
 
@@ -47,7 +47,7 @@ export default function Navbar() {
                     {login ? (<DropdownMenu />) :
                         (
                             <button className="rounded-lg bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700">
-                                Log/Sign
+                               <Link to='/signup'> Log/Sign</Link>
                             </button>
                         )}
 
