@@ -67,7 +67,7 @@ export default function SignUp() {
     <div className="flex justify-center items-center h-screen bg-gradient-to-r from-blue-500 to-purple-600 px-4">
       <form
         onSubmit={formik.handleSubmit}
-        className="w-full max-w-lg bg-white md:mt-10 p-6 sm:p-8 rounded-lg shadow-2xl transition-all duration-500 hover:scale-105"
+        className="w-full max-w-lg bg-white p-6 sm:p-8 rounded-lg shadow-2xl transition-all duration-500 hover:scale-105"
         encType="multipart/form-data"
       >
         <h1 className="text-3xl font-bold text-center text-gray-800">Sign Up</h1>
