@@ -1,5 +1,5 @@
 import React from 'react'
-import { Navbar, SignUp, LogIn, Home, Bollywood, Hollywood, South, Anime } from './AllComponents';
+import { Navbar, SignUp, LogIn, Home, Bollywood, Hollywood, South, Anime, OtpVerification } from './AllComponents';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 export default function App() {
@@ -16,6 +16,7 @@ export default function App() {
           <Route path="/hollywood" element={<Hollywood />} />
           <Route path="/south" element={<South />} />
           <Route path="/anime" element={<Anime />} />
+          <Route path="/otpverification" element={<OtpVerification />} />
         </Routes>
       </BrowserRouter>
     </div>

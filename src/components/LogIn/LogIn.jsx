@@ -1,41 +1,50 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useFormik } from 'formik';
+import { UserSchema } from '../Valiadtion/AllValidation';
 
 export default function LogIn() {
+
+  const logInformdata = [
+    { labelName: 'Email ID', name: 'email', placeholder: 'Enter Your Email...', type: 'text' },
+    { labelName: 'Password', name: 'password', placeholder: 'Enter Your Password...', type: 'password' },
+  ];
+
+  const { values, errors, touched, handleBlur, handleChange, handleSubmit } = useFormik({
+    initialValues: { name: '', profileImage: '', email: '', password: '', confirmPassword: '' },
+    validationSchema: UserSchema,
+    onSubmit: (values) => {},
+  });
+
+ 
+
   return (
-    <div className="flex justify-center items-center h-screen bg-gradient-to-r from-cyan-200 via-sky-400 to-indigo-600">
-      <div className="flex bg-white p-8 rounded-lg shadow-lg drop-shadow-2xl">
-        {/* Left div */}
-        <div className="flex flex-col justify-center p-5 w-1/2">
-          <h1 className="text-3xl font-bold mb-4">Welcome</h1>
+    <div className='flex justify-center items-center h-screen bg-gradient-to-r from-blue-500 to-purple-600 animate-gradient'>
+      <form onSubmit={handleSubmit}
+        className='flex flex-col gap-6 mt-[70px] bg-white p-8 rounded-lg shadow-2xl transform transition-all duration-500 hover:scale-105'
+      >
+        <h1 className='text-3xl font-bold text-center text-gray-800'>LogIn</h1>
 
-          <div className="flex flex-col gap-2">
-            <label htmlFor="username" className="font-semibold">Username</label>
-            <input id="username" type="text" className="border p-2 rounded-md" />
+        {logInformdata.map((item, key) => (
+          <div key={key}>
+            <label htmlFor={item.name}>{item.labelName}</label>
+            <input className='w-full p-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all'
+              type={item.type} autoComplete='off' name={item.name} id={item.name} value={values[item.name]}
+              placeholder={item.placeholder} onChange={handleChange} onBlur={handleBlur}/>
+            {errors[item.name] && touched[item.name] && (
+              <p className="text-red-500 text-sm mt-1">{errors[item.name]}</p>
+            )}
           </div>
+        ))}
 
-          <div className="flex flex-col gap-2 mt-4">
-            <label htmlFor="password" className="font-semibold">Password</label>
-            <input id="password" type="password" className="border p-2 rounded-md" />
-          </div>
+        <button type="submit" className='w-full p-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 active:bg-blue-800 transition-all transform hover:scale-105'>
+          Log In
+        </button>
 
-          <button className='bg-blue-500 text-white p-2 rounded-md mt-4'>LogIn</button>
-
-          <h1 className='text-center mt-4 font-bold'>OR</h1>
-
-          <button className='bg-blue-500 text-white p-2 rounded-md mt-4'><Link to='/signup'>SignUp</Link></button>
-        </div>
-
-        {/* Right div */}
-        <div className="ml-8 hidden md:flex">
-          <img
-            className="h-[500px] w-[400px] rounded-lg"
-            src="https://i.gifer.com/5XQl.gif"
-            alt="Login Illustration"
-          />
-
-        </div>
-      </div>
+        <button className='w-full p-3 bg-transparent text-blue-600 border-2 border-blue-600 rounded-lg hover:bg-blue-600 hover:text-white transition-all transform hover:scale-105'>
+          <Link to='/signup' className='w-full block'>SignUp</Link>
+        </button>
+      </form>
     </div>
   );
 }

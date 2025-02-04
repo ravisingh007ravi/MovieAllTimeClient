@@ -6,3 +6,4 @@ export {default as Bollywood} from './components/Bollywood.jsx';
 export {default as Hollywood} from './components/Hollywood.jsx';
 export {default as South} from './components/South.jsx';
 export {default as Anime} from './components/Anime.jsx';
+export {default as OtpVerification} from './components/OtpVerification.jsx';
