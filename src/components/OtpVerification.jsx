@@ -1,17 +1,64 @@
-import React, { useState } from "react";
-import { useParams } from "react-router-dom";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { APIURL } from "../GlobalURL";
 import axios from "axios";
 
 const OtpVerification = () => {
   const navigate = useNavigate();
-  const { email } = useParams();
+  const { userId } = useParams();
+  const email = sessionStorage.getItem("userEmail");
+
   const [code, setCode] = useState(new Array(4).fill(""));
+  const [isLoading, setIsLoading] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(30);
+  const [canResend, setCanResend] = useState(false);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          setCanResend(true);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+
+  const handleResendOTP = async () => {
+    if (!canResend) return;
+
+    try {
+      setCanResend(false);
+      setTimeLeft(30);
+      const url = `${APIURL}reSendOTP/${userId}`;
+      
+      await axios.get(url);
+      window.alert("New OTP has been sent to your email");
+      
+      // Restart the timer
+      const timer = setInterval(() => {
+        setTimeLeft((prev) => {
+          if (prev <= 1) {
+            clearInterval(timer);
+            setCanResend(true);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    } catch (err) {
+      window.alert(err.response?.data?.msg || "Failed to resend OTP");
+    }
+  };
 
   const handleChange = (element, index) => {
     const value = element.value;
-
-    if (!/^\d?$/.test(value)) return; // Allow only digits, max 1 character
+    if (!/^\d?$/.test(value)) return;
 
     let newCode = [...code];
     newCode[index] = value;
@@ -30,11 +77,12 @@ const OtpVerification = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     const userOtp = code.join("");
 
     try {
-      const url = `http://localhost:5000/verifyOTP/${email}`;
-      const response = await axios.post(url, { OTP: userOtp });
+      const url = `${APIURL}userOTPVerify/${userId}`;
+      const response = await axios.post(url, { otp: userOtp });
 
       if (!response.data.status) window.alert("Invalid OTP");
       else {
@@ -42,6 +90,8 @@ const OtpVerification = () => {
       }
     } catch (err) {
       window.alert(err.response?.data?.msg || "An error occurred");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -54,7 +104,7 @@ const OtpVerification = () => {
               <p>Email Verification</p>
             </div>
             <div className="flex flex-row text-sm font-medium text-gray-400">
-              <p>We have sent a code to your email {email}</p>
+              <p>We have sent a code to your email - <span className="font-bold">{email}</span></p>
             </div>
           </div>
 
@@ -82,20 +132,26 @@ const OtpVerification = () => {
                   <div>
                     <button
                       type="submit"
-                      className="flex flex-row items-center justify-center text-center w-full border rounded-xl outline-none py-5 bg-blue-700 border-none text-white text-sm shadow-sm"
+                      disabled={isLoading}
+                      className="flex flex-row items-center justify-center text-center w-full border rounded-xl outline-none py-5 bg-blue-700 border-none text-white text-sm shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      Verify Account
+                      {isLoading ? 'Verifying...' : 'Verify Account'}
                     </button>
                   </div>
 
                   <div className="flex flex-row items-center justify-center text-center text-sm font-medium space-x-1 text-gray-500">
                     <p>Didn't receive code?</p>
-                    <a
-                      className="flex flex-row items-center text-blue-600"
-                      href="#"
-                    >
-                      Resend
-                    </a>
+                    {canResend ? (
+                      <button
+                        type="button"
+                        onClick={handleResendOTP}
+                        className="text-blue-600 cursor-pointer"
+                      >
+                        Resend
+                      </button>
+                    ) : (
+                      <span>Resend in {timeLeft}s</span>
+                    )}
                   </div>
                 </div>
               </div>

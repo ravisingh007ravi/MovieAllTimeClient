@@ -9,7 +9,7 @@ export default function SignUp() {
   const navigate = useNavigate();
   const [selectedFile, setSelectedFile] = useState(null);
   const [preview, setPreview] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);  
 
   const formik = useFormik({
     initialValues: { name: "", email: "", password: "", confirmPassword: "" },
@@ -26,9 +26,13 @@ export default function SignUp() {
         }
 
         const response = await axios.post(`${APIURL}createUser`, formData);
-
+        const id = response.data.id;
+        const UserEmail = response.data.email;
+        
+        sessionStorage.setItem("userEmail", UserEmail);
+    
         if (response.status === 200 || response.status === 201) {
-          navigate("/otpverification");
+          navigate(`/otpverification/${id}`);
         } else {
           window.alert("Invalid data");
         }

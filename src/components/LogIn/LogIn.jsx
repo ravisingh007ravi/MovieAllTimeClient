@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useFormik } from 'formik';
 import { UserSchema } from '../Valiadtion/AllValidation';
+import { APIURL } from "../../GlobalURL";
+
 
 export default function LogIn() {
 
@@ -11,9 +13,9 @@ export default function LogIn() {
   ];
 
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } = useFormik({
-    initialValues: { name: '', profileImage: '', email: '', password: '', confirmPassword: '' },
+    initialValues: {  email: '', password: ''},
     validationSchema: UserSchema,
-    onSubmit: (values) => {},
+    
   });
 
  
@@ -25,14 +27,16 @@ export default function LogIn() {
       >
         <h1 className='text-3xl font-bold text-center text-gray-800'>LogIn</h1>
 
-        {logInformdata.map((item, key) => (
+        {logInformdata.map(({labelName,name,placeholder,type}, key) => (
           <div key={key}>
-            <label htmlFor={item.name}>{item.labelName}</label>
+            <label htmlFor={name}>{labelName}</label>
+
             <input className='w-full p-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all'
-              type={item.type} autoComplete='off' name={item.name} id={item.name} value={values[item.name]}
-              placeholder={item.placeholder} onChange={handleChange} onBlur={handleBlur}/>
-            {errors[item.name] && touched[item.name] && (
-              <p className="text-red-500 text-sm mt-1">{errors[item.name]}</p>
+              type={type} autoComplete='off' name={name} id={name} value={values[name]}
+              placeholder={placeholder} onChange={handleChange} onBlur={handleBlur}/>
+
+            {errors[name] && touched[name] && (
+              <p className="text-red-500 text-sm mt-1">{errors[name]}</p>
             )}
           </div>
         ))}
@@ -48,3 +52,5 @@ export default function LogIn() {
     </div>
   );
 }
+
+

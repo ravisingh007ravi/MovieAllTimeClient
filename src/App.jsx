@@ -16,7 +16,7 @@ export default function App() {
           <Route path="/hollywood" element={<Hollywood />} />
           <Route path="/south" element={<South />} />
           <Route path="/anime" element={<Anime />} />
-          <Route path="/otpverification" element={<OtpVerification />} />
+          <Route path="/otpverification/:userId" element={<OtpVerification />} />
         </Routes>
       </BrowserRouter>
     </div>
