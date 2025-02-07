@@ -13,7 +13,7 @@ export default function Navbar() {
         { name: "Anime", href: "/anime" },
     ];
 
-    const [login, setLogIn] = useState(true);
+    const [login, setLogIn] = useState(false);
     const [bar, setBar] = useState(false);
     
     
