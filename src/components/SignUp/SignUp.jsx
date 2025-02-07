@@ -9,7 +9,7 @@ export default function SignUp() {
   const navigate = useNavigate();
   const [selectedFile, setSelectedFile] = useState(null);
   const [preview, setPreview] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);  
+  const [isLoading, setIsLoading] = useState(false);
 
   const formik = useFormik({
     initialValues: { name: "", email: "", password: "", confirmPassword: "" },
@@ -28,9 +28,9 @@ export default function SignUp() {
         const response = await axios.post(`${APIURL}createUser`, formData);
         const id = response.data.id;
         const UserEmail = response.data.email;
-        
+
         sessionStorage.setItem("userEmail", UserEmail);
-    
+
         if (response.status === 200 || response.status === 201) {
           navigate(`/otpverification/${id}`);
         } else {
@@ -65,23 +65,29 @@ export default function SignUp() {
     { label: "Email ID", name: "email", type: "email", placeholder: "Enter Your Email..." },
     { label: "Password", name: "password", type: "password", placeholder: "Enter Your Password..." },
     { label: "Confirm Password", name: "confirmPassword", type: "password", placeholder: "Enter Your Confirm Password..." },
-  ]
+  ];
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gradient-to-r from-blue-500 to-purple-600 px-4">
+    <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-gray-200 to-gray-300">
       <form
         onSubmit={formik.handleSubmit}
-        className="w-full max-w-lg bg-white p-6 sm:p-8 rounded-lg shadow-2xl transition-all duration-500 hover:scale-105"
+        className="relative bg-white/20 mt-20 backdrop-blur-lg p-8 rounded-3xl shadow-2xl w-96 border border-white/30 duration-500 hover:scale-105"
         encType="multipart/form-data"
       >
-        <h1 className="text-3xl font-bold text-center text-gray-800">Sign Up</h1>
+        {/* Logo Section */}
+        <div className="flex flex-col items-center">
+          <div className="w-16 h-16 rounded-full bg-white shadow-md flex items-center justify-center">
+            <span className="text-2xl font-bold text-orange-500">RS</span>
+          </div>
+          <h2 className="text-xl font-semibold mt-4 text-gray-800">Sign Up</h2>
+        </div>
 
         {/* Dynamically Generated Inputs */}
         {inputData.map(({ label, name, type, placeholder }) => (
           <div key={name} className="mb-4">
             <label htmlFor={name} className="block font-medium text-gray-700">{label}</label>
             <input
-              className="w-full p-3 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+              className="w-full p-3 bg-white/40 text-gray-800 border border-white/50 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400"
               type={type}
               name={name}
               id={name}
@@ -98,7 +104,7 @@ export default function SignUp() {
         <div className="mb-4">
           <label htmlFor="profileImage" className="block font-medium text-gray-700">Upload Image</label>
           <input
-            className="w-full p-2 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+            className="w-full p-2 bg-white/40 border border-white/50 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400"
             type="file"
             name="profileImage"
             id="profileImage"

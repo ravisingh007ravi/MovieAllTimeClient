@@ -13,12 +13,12 @@ export default function Navbar() {
         { name: "Anime", href: "/anime" },
     ];
 
-    const [login, setLogIn] = useState(false);
+    const [login, setLogIn] = useState(true);
     const [bar, setBar] = useState(false);
     
     
     return (
-        <header className=" w-full top-0 z-50 bg-[#332d2dae] shadow-lg">
+        <header className="fixed w-full top-0 z-50 bg-[#332d2dae] shadow-lg">
             <nav className="flex items-center justify-between px-4 py-4 md:px-8 lg:px-16">
                 {/* Left Section */}
                 <div className="flex items-center space-x-6">

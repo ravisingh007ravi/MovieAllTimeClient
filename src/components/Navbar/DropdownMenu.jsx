@@ -12,7 +12,7 @@ export default function DropdownMenu() {
                 onClick={() => { setShowDropdown((showDropdown) => !showDropdown) }}
             />
             {showDropdown && (
-                <div className="hidden md:flex flex-col absolute right-0 top-15 w-48 bg-gray-800 rounded-lg shadow-lg">
+                <div className=" flex-col absolute right-0 top-15 w-48 bg-gray-800 rounded-lg shadow-lg">
                     <div className="flex items-center px-4 py-2 hover:bg-gray-700">
                         <CgProfile className="mr-2 text-gray-300" />
                         <span className="text-gray-300">Profile</span>
