@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useContext  } from 'react';
 import { FaBarsStaggered } from "react-icons/fa6";
 import { IoClose } from "react-icons/io5";
 import { Link } from 'react-router-dom';
@@ -16,18 +16,19 @@ export default function Navbar() {
     const [login, setLogIn] = useState(false);
     const [bar, setBar] = useState(false);
     
-    
     return (
         <header className="fixed w-full top-0 z-50 bg-[#332d2dae] shadow-lg">
             <nav className="flex items-center justify-between px-4 py-4 md:px-8 lg:px-16">
                 {/* Left Section */}
                 <div className="flex items-center space-x-6">
-                    <h1 className="text-2xl font-bold text-white">Logo</h1>
+                    <h1 className="text-2xl font-bold text-white">             
+                        <Link to='/'><button className='text-white hover:scale-105 duration-300 cursor-pointer'>LOGO</button></Link>
+                    </h1>
                     <ul className="hidden md:flex space-x-6">
                         {menuData.map((item, key) => (
                             <li key={key}>
                                 <Link to={item.href}>
-                                    <button className="text-white rounded-md text-xl font-semibold px-3 py-2 transition-colors hover:bg-gray-700 hover:text-white">
+                                    <button className="text-white cursor-pointer rounded-md text-xl font-semibold px-3 py-2 transition-colors hover:bg-gray-700 hover:text-white">
                                         {item.name}
                                     </button>
                                 </Link>

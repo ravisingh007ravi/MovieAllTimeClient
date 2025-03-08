@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { APIURL } from "../GlobalURL";
 import axios from "axios";
+import {showSuccessToast, showErrorToast} from './React_Toastify/ToastNotifications'
 
 const OtpVerification = () => {
   const navigate = useNavigate();
@@ -38,7 +39,7 @@ const OtpVerification = () => {
       const url = `${APIURL}reSendOTP/${userId}`;
       
       await axios.get(url);
-      window.alert("New OTP has been sent to your email");
+      showSuccessToast("New OTP has been sent to your email");
       
       // Restart the timer
       const timer = setInterval(() => {
@@ -84,12 +85,13 @@ const OtpVerification = () => {
       const url = `${APIURL}userOTPVerify/${userId}`;
       const response = await axios.post(url, { otp: userOtp });
 
-      if (!response.data.status) window.alert("Invalid OTP");
+      if (!response.data.status) showErrorToast("Invalid OTP")
       else {
+        showSuccessToast('Sussessfully Verified');
         navigate("/Login");
       }
     } catch (err) {
-      window.alert(err.response?.data?.msg || "An error occurred");
+      showErrorToast(err.response?.data?.msg || "An error occurred")
     } finally {
       setIsLoading(false);
     }
