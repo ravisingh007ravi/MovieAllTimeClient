@@ -2,65 +2,94 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import axios from "axios";
-import { LogInSchema } from "../Valiadtion/AllValidation";
+import { LogInSchema } from "./Validation";
 import { APIURL } from "../../GlobalURL";
 import { MdEmail } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";
-import { FaRegImage } from "react-icons/fa6";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai"; 
 import { showSuccessToast, showErrorToast, showWarningToast } from "../React_Toastify/ToastNotifications";
+import { motion } from "framer-motion";
 
 export default function LogIn() {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState({ password: false, confirmPassword: false });
+  const [showPassword, setShowPassword] = useState(false);
 
-  const togglePasswordVisibility = (field) => {
-    setShowPassword((prev) => ({ ...prev, [field]: !prev[field] }));
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
   };
 
   const inputData = [
-    { label: "Email ID", name: "email", type: "email", placeholder: "Enter Your Email...", icon: <MdEmail /> },
-    { label: "Password", name: "password", type: showPassword.password ? "text" : "password", placeholder: "Enter Your Password...", icon: <RiLockPasswordFill />, isPassword: true },
+    { 
+      label: "Email ID", 
+      name: "email", 
+      type: "email", 
+      placeholder: "Enter Your Email...", 
+      icon: <MdEmail className="text-orange-500" /> 
+    },
+    { 
+      label: "Password", 
+      name: "password", 
+      type: showPassword ? "text" : "password", 
+      placeholder: "Enter Your Password...", 
+      icon: <RiLockPasswordFill className="text-orange-500" />, 
+      isPassword: true 
+    },
   ];
 
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } = useFormik({
-    initialValues: { email: "", password: ""},
+    initialValues: { email: "", password: "" },
     validationSchema: LogInSchema,
-    // onSubmit: async (values) => {
-    //   setIsLoading(true);
-    //   try {
-    //     showSuccessToast('HELLO')
-    //   }
-    //   catch (error) { 
-    //     showWarningToast(error.response?.data?.msg || "An error occurred")}
-    //   finally { setIsLoading(false); }
-
-    // },
+    onSubmit: async (values) => {
+      setIsLoading(true);
+      try {
+        const response = await axios.post(`${APIURL}login`, values);
+        sessionStorage.setItem("userEmail", response.data.email);
+        showSuccessToast("Login Successful");
+        navigate("/dashboard");
+      }
+      catch (error) { 
+        showWarningToast(error.response?.data?.msg || "An error occurred");
+      }
+      finally { 
+        setIsLoading(false); 
+      }
+    },
   });
 
-console.log(values)
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-gray-200 to-gray-300">
-      <form
+    <div className="min-h-screen sm:pt-25 pt-25 bg-[#0f0f0f] bg-opacity-90 bg-[url('https://res.cloudinary.com/dnpn8ljki/image/upload/v1748723343/captain_america_brave_new_world_ver2_qgl4de.jpg')] bg-cover bg-center bg-blend-overlay flex items-center justify-center p-4 sm:p-6">
+      <motion.form
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
         onSubmit={handleSubmit}
-        className="relative bg-white/20 mt-20 backdrop-blur-lg p-8 rounded-3xl shadow-2xl w-96 border border-white/30 duration-500 hover:scale-105"
-        encType="multipart/form-data"
+        className="relative bg-[#0f0f0f]/90 backdrop-blur-lg p-6 sm:p-8 rounded-xl shadow-2xl w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl border border-orange-500/30"
       >
-        <div className="flex flex-col items-center">
-          <div className="w-16 h-16 rounded-full bg-white shadow-md flex items-center justify-center">
-            <span className="text-2xl font-bold text-orange-500">RS</span>
-          </div>
-          <h2 className="text-xl font-semibold mt-4 text-gray-800">Log In</h2>
+        <div className="flex flex-col items-center mb-4 sm:mb-6">
+          <motion.div 
+            whileHover={{ scale: 1.1 }}
+            className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-orange-500/10 border border-orange-500/30 shadow-lg flex items-center justify-center mb-3 sm:mb-4"
+          >
+            <span className="text-2xl sm:text-3xl font-bold text-orange-500">🎥</span>
+          </motion.div>
+          <h2 className="text-xl sm:text-2xl font-bold text-orange-500">Welcome Back</h2>
+          <p className="text-gray-400 text-xs sm:text-sm mt-1">Log in to your MovieHub account</p>
         </div>
 
         {inputData.map(({ label, name, type, placeholder, icon, isPassword }, key) => (
-          <div key={key} className="mb-4">
-            <label htmlFor={name} className="block font-medium text-gray-700">{label}</label>
+          <motion.div 
+            key={key}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: key * 0.1 }}
+            className="mb-3 sm:mb-4"
+          >
+            <label htmlFor={name} className="block text-xs sm:text-sm font-medium text-gray-300 mb-1">{label}</label>
             <div className="relative flex items-center">
-              <div className="absolute left-3">{icon}</div>
+              <div className="absolute left-3 text-gray-400 text-sm sm:text-base">{icon}</div>
               <input
-                className="w-full p-3 pl-10 pr-10 bg-white/40 text-gray-800 border border-white/50 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="w-full p-2 sm:p-3 pl-8 sm:pl-10 pr-8 sm:pr-10 bg-[#1a1a1a] text-gray-200 text-xs sm:text-sm border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent placeholder-gray-500"
                 type={type}
                 name={name}
                 id={name}
@@ -70,40 +99,69 @@ console.log(values)
                 onBlur={handleBlur}
               />
               {isPassword && (
-                <div className="absolute right-3 cursor-pointer" onClick={() => togglePasswordVisibility(name)}>
-                  {showPassword[name] ? <AiFillEyeInvisible className="text-gray-500" /> : <AiFillEye className="text-gray-500" />}
-                </div>
+                <motion.div 
+                  whileHover={{ scale: 1.1 }}
+                  className="absolute right-3 cursor-pointer text-gray-400 hover:text-orange-500 text-sm sm:text-base"
+                  onClick={togglePasswordVisibility}
+                >
+                  {showPassword ? <AiFillEyeInvisible /> : <AiFillEye />}
+                </motion.div>
               )}
             </div>
-            {errors[name] && touched[name] && <p className="text-red-500 text-sm">{errors[name]}</p>}
-          </div>
+            {errors[name] && touched[name] && <p className="text-red-400 text-xs mt-1">{errors[name]}</p>}
+          </motion.div>
         ))}
 
-       
+        <div className="flex justify-end mb-4 sm:mb-5">
+          <Link to="/forgot-password">
+            <motion.span
+              whileHover={{ color: "#f97316" }}
+              className="text-xs sm:text-sm text-orange-500 cursor-pointer hover:underline"
+            >
+              Forgot Password?
+            </motion.span>
+          </Link>
+        </div>
 
-        <button
+        <motion.button
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
           type="submit"
-          className={`w-full p-3 rounded-lg transition-all flex items-center justify-center ${isLoading ? "bg-gray-500 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700 text-white"}`}
+          className={`w-full p-2 sm:p-3 rounded-lg font-medium text-sm sm:text-base flex items-center justify-center ${isLoading ? "bg-gray-700 cursor-not-allowed" : "bg-orange-600 hover:bg-orange-700 text-white"}`}
           disabled={isLoading}
         >
           {isLoading ? (
             <>
-              <svg className="animate-spin h-5 w-5 mr-2 border-4 border-white border-t-transparent rounded-full" viewBox="0 0 24 24"></svg>
-              Uploading...
+              <svg className="animate-spin h-4 w-4 sm:h-5 sm:w-5 mr-2 sm:mr-3 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              Logging In...
             </>
           ) : (
             "Log In"
           )}
-        </button>
+        </motion.button>
 
-        <div className="mt-4 text-center">
-          <Link to="/signup">
-            <button className="w-full p-3 border-2 border-blue-600 rounded-lg text-blue-600 hover:bg-blue-600 hover:text-white">
-            SignUp
-            </button>
-          </Link>
-        </div>
-      </form>
+        <motion.div 
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
+          className="mt-4 sm:mt-6 text-center text-gray-400 text-xs sm:text-sm"
+        >
+          <p>
+            Don't have an account?{' '}
+            <Link to="/signup">
+              <motion.span 
+                whileHover={{ color: "#f97316" }}
+                className="text-orange-500 font-medium cursor-pointer hover:underline"
+              >
+                Sign Up
+              </motion.span>
+            </Link>
+          </p>
+        </motion.div>
+      </motion.form>
     </div>
   );
 }

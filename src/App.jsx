@@ -1,5 +1,5 @@
 import React from 'react'
-import { Navbar, SignUp, LogIn, Home, Bollywood, Hollywood, South, Anime, OtpVerification } from './AllComponents';
+import { Navbar, SignUp, LogIn, Home, Bollywood, Hollywood, South, Anime, OtpVerification,AdminHome } from './AllComponents';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 export default function App() {
