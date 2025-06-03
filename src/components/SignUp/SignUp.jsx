@@ -72,7 +72,7 @@ export default function SignUp() {
   };
 
   return (
-    <div className="min-h-screen sm:pt-25 pt-25 bg-[#0f0f0f] bg-opacity-90 bg-[url('https://res.cloudinary.com/dnpn8ljki/image/upload/v1748723343/captain_america_brave_new_world_ver2_qgl4de.jpg')] bg-cover bg-center bg-blend-overlay flex items-center justify-center p-4 sm:p-6">
+    <div className="min-h-screen sm:pt-25 pt-20 bg-[#0f0f0f] bg-opacity-90 bg-[url('https://res.cloudinary.com/dnpn8ljki/image/upload/v1748723343/captain_america_brave_new_world_ver2_qgl4de.jpg')] bg-cover bg-center bg-blend-overlay flex items-center justify-center p-4 sm:p-6">
       <motion.form
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

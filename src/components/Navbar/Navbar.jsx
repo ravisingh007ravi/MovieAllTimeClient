@@ -13,7 +13,7 @@ export default function Navbar() {
         { name: "South", href: "/south", emoji: "🪇" },
         { name: "Anime", href: "/anime", emoji: "🐉" },
         { name: "TV Shows", href: "/tv-shows", emoji: "📺" },
-        { name: "4K Movies", href: "/4k-movies", emoji: "🎥" },
+        // { name: "4K Movies", href: "/4k-movies", emoji: "🎥" },
     ];
 
     const [login, setLogIn] = useState(false);

@@ -32,33 +32,13 @@ export default function Spinner() {
                 centeredSlides={true}
                 slidesPerView="auto"
                 breakpoints={{
-                    320: {
-                       slidesPerView: 2,
-                        spaceBetween: 30,
-                    },
-                    640: {
-                        slidesPerView: 2,
-                        spaceBetween: 30,
-                    },
-                    768: {
-                        slidesPerView: 3,
-                        spaceBetween: 40,
-                    },
-                    1024: {
-                        slidesPerView: 'auto',
-                    }
+                    320: { slidesPerView: 2, spaceBetween: 30, },
+                    640: { slidesPerView: 2, spaceBetween: 30, },
+                    768: { slidesPerView: 3, spaceBetween: 40, },
+                    1024: { slidesPerView: 'auto', spaceBetween: 50, },
                 }}
-                coverflowEffect={{
-                    rotate: 20,
-                    stretch: 0,
-                    depth: 200,
-                    modifier: 1,
-                    slideShadows: true,
-                }}
-                autoplay={{
-                    delay: 2500,
-                    disableOnInteraction: false,
-                }}
+                coverflowEffect={{ rotate: 20, stretch: 0, depth: 200, modifier: 1, slideShadows: true, }}
+                autoplay={{ delay: 2500, disableOnInteraction: false, }}
                 loop={true}
                 modules={[EffectCoverflow, Autoplay]}
                 className="mySwiper px-4"
@@ -66,9 +46,7 @@ export default function Spinner() {
                 {data.map(({ title, img }, index) => (
                     <SwiperSlide key={index} className="w-[250px] sm:!w-[280px] md:!w-[300px] lg:!w-[350px] h-[350px] sm:h-[400px] md:h-[450px] lg:h-[520px]">
                         <div className="relative h-full rounded-xl overflow-hidden shadow-2xl group">
-                             <img
-                                src={img}
-                                // alt={`Movie ${index + 1}`}
+                            <img src={img} alt={`Movie ${index + 1}`}
                                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
