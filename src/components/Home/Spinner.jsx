@@ -33,8 +33,8 @@ export default function Spinner() {
                 slidesPerView="auto"
                 breakpoints={{
                     320: {
-                        slidesPerView: 1,
-                        spaceBetween: 20,
+                       slidesPerView: 2,
+                        spaceBetween: 30,
                     },
                     640: {
                         slidesPerView: 2,
@@ -64,11 +64,11 @@ export default function Spinner() {
                 className="mySwiper px-4"
             >
                 {data.map(({ title, img }, index) => (
-                    <SwiperSlide key={index} className="!w-[260px] sm:!w-[300px] md:!w-[320px] lg:!w-[350px] md:h-[520px] h-[420px]">
+                    <SwiperSlide key={index} className="w-[250px] sm:!w-[280px] md:!w-[300px] lg:!w-[350px] h-[350px] sm:h-[400px] md:h-[450px] lg:h-[520px]">
                         <div className="relative h-full rounded-xl overflow-hidden shadow-2xl group">
                              <img
                                 src={img}
-                                alt={`Movie ${index + 1}`}
+                                // alt={`Movie ${index + 1}`}
                                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
